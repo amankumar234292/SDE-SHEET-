@@ -15,12 +15,7 @@ bool compare(ll a,ll b)
     return a<b;
 }
 
-/* 1.using priority queue/ heap - time(nlog(n)), space(log(n))
-   2.using sorting -- time(nlog(n)) space (1) 
-   3.using quick sort -- time((n)) , space (1);
-*/
-
-int parition(vector<int>&v, int low, int high)
+int partition(vector<int>&v, int low, int high)
 {
     int pivot=v[high];
     int i=low-1;
@@ -30,30 +25,29 @@ int parition(vector<int>&v, int low, int high)
         if(v[j]>pivot)
         {
             i++;
-            swap(v[i],v[j]);
+            swap(v[i], v[j]);
         }
     }
 
     i++;
-    swap(v[i],v[high]);
+    swap(v[i], v[high]);
 
     return i;
 }
-int quickSort(vector<int>&v, int low, int high, int k)
+void quickSort(vector<int>&v, int low, int high)
 {
-        int partitionIndex=parition(v,low, high);
-        cout<<partitionIndex<<endl;
 
-        if(partitionIndex==k-1)
-        return v[partitionIndex];
-
-        else if(partitionIndex>k-1)
-        return quickSort(v,low,partitionIndex-1,k);
-
-    
-        return quickSort(v,partitionIndex+1, high, k);
-
+    if(low<high)
+    { 
+        int partitionIndex=partition(v, low, high);
+        quickSort(v, low, partitionIndex-1);
+        quickSort(v,partitionIndex+1, high);
+    }
 }
+
+
+// time complexity - avg(nlogn), worst(n^2)
+// worst case occur when the pivot is always the smallest element or largest element 
 
 int main ()
 {
@@ -65,19 +59,19 @@ int main ()
     cin.tie(NULL);  
     test()
     {
-        ll i,j,n,k;
-        cin>>n>>k;
+        ll i,j,n;
+        cin>>n;
 
         vector<int>v(n);
 
         for(i=0;i<n;i++)
         cin>>v[i];
 
+        quickSort(v,0,n-1);
+
         for(auto i:v)
         cout<<i<<" ";
         cout<<endl;
-
-        cout<<quickSort(v,0,n-1, k)<<endl;
     }
     return 0;
 }
