@@ -1,8 +1,2 @@
-
-c
-b
-bc
-a
-ac
-ab
-abc
+coding is fun
+3
